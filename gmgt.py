@@ -38,7 +38,8 @@ def get_records(
         values in order to filter specific metadata row and yield only the corresponding
         data. Values cannot be None / nan, NaT: to get those values, use the 'missing_'
         prefix:, e.g. type `missing_magnitude: False` to yield only records where the
-        magnitude is provided (not N/A). Values can also be list/tuples, in this case
+        magnitude is provided (not N/A). If the filter name denotes a field name
+        with no prefix (e.g. 'magnitude'), values can also be list/tuples, in this case
         records whose fields are equal to any value in the list/tuple will be yielded
 
         Examples:
@@ -57,6 +58,9 @@ def get_records(
             for expr, value in filters.items():
                 try:
                     if expr.startswith('min_'):
+                        if isinstance(value, (tuple, list, set)):
+                            raise ValueError(f'{expr} requires a single value, '
+                                             f'not a list of values')
                         col = expr[4:]
                         # categorical column, need to work on categories:
                         if isinstance(chunk[col].dtype, pd.CategoricalDtype):
@@ -65,6 +69,9 @@ def get_records(
                         else:
                             col_mask = chunk[col] >= value
                     elif expr.startswith('max_'):
+                        if isinstance(value, (tuple, list, set)):
+                            raise ValueError(f'{expr} requires a single value, '
+                                             f'not a list of values')
                         col = expr[4:]
                         if isinstance(chunk[col].dtype, pd.CategoricalDtype):
                             categs = chunk[col].cat.categories  # pandas Index
