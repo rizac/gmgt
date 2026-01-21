@@ -1,0 +1,23 @@
+# --------------------------
+# pyproject.toml
+# Minimal configuration for a Python project requiring:
+# setuptools, pip, wheel (build tools)
+# h5py, pandas, tables (runtime dependencies)
+# --------------------------
+
+[build-system]
+# Build system requirements: these packages are needed to build/install this project
+requires = ["setuptools", "wheel", "pip"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gmgt"
+version = "0.1.0"
+description = "GMGT minimal project with records function"
+
+# Runtime dependencies: packages that must be installed for your code to run
+dependencies = [
+    "h5py>=3.15.1",
+    "pandas>=2.3.3",
+    "tables>=3.10.2"
+]

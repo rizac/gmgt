@@ -4,7 +4,7 @@ See README for further details
 """
 
 # virtual anv with python3.11
-# pip install --upgrade pip setuptools && pip install h5py pandas
+# pip install --upgrade pip setuptools && pip install h5py tables pandas
 
 from collections.abc import Iterator
 import numpy as np
@@ -13,7 +13,7 @@ import h5py
 
 
 
-def records(
+def get_records(
     dataset_path, **filters
 ) -> Iterator[tuple[np.ndarray, np.ndarray, np.ndarray, float, tuple]]:
     """
@@ -32,6 +32,7 @@ def records(
       of fields, see:
       <https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml>
 
+    :param dataset_path: a string denoting the dataset path (absolute path to hdf file)
     :param filters: a keyword argument whose parameters are any metadata fields,
         optionally prefixed with 'min_', 'max_' and 'missing_' mapped to a matching
         values in order to filter specific metadata row and yield only the corresponding

@@ -77,19 +77,43 @@ kiknet_knet.hdf
 where each `hdf` file denotes a gmgt dataset, composed of 
 time histories (accelerometers in m/sˆ2) and relative metadata.
 
+## Usage
 
-## Accessing the fils in your code
+1. Clone the repository
 
-The recommended way when dealing with large datasets is to implement
-Python code and execute it directly (e.g.,as script) bypassing 
-Notebooks and other tools, which are best suited for plotting or
-quick investigation rather than CPU-intensive processing. 
+   ```
+   git clone https://git.gfz-potsdam.de/rizac/gmgt.git
+   cd gmgt
+   ```
 
-As such, we created a 
-[Python module](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.py?ref_type=heads)
-in this repository, where you can copy paste the function
-needed to access the datasets, once downloaded. All
-requirements are written therein.
+2. If you already have your Python virtual environment and setup,
+   you can copy the file `gmgt.py` in your Python module, or even its 
+   [content](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.py?ref_type=heads) 
+   directly in your code. This is a very "quick and dirty" approach: 
+   it's fast, but you need to be sure that all requirements are already
+   installed.
+
+2. Otherwise, you can create a new fresh virtual env (it can be done
+   inside the `gmgt` cloned directory for instance):
+   ```
+   python3 -m venv .env       # create a venv. Please use Ptyhon 3.11+
+   source .env/bin/activate   # Linux/macOS
+   # .\env\Scripts\activate  # Windows PowerShell
+   ```
+   
+   and then install this package (from within the gmgt directory):
+   ```
+   pip install -e .
+   ```
+
+   Then you can start coding (Jupyter, Python module) 
+   after activating the virtual environment each time
+   (type `deactivate` to deactivate the ven). In your code,
+   you just have to import:
+
+   ```python
+   from gmgt import get_records
+   ```
 
 For illustrative purposes (or if you really want to stick to 
 Notebooks to process the data) we provided also a
