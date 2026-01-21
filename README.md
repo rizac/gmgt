@@ -1,16 +1,16 @@
-# gmgt
+# GMGT
 
-*G*round *M*otion *G*round *T*ruth is a collection of datasets 
-of Ground motion time hisotries and metadata specifically
+**G**round **M**otion **G**round **T**ruth is a collection of datasets
+of Ground motion time histories and metadata specifically
 created for Big data and machine learning applications.
 
-In this README you will find how to acceess and work with the data in 
+In this README you will find how to access and work with the data in 
 Python
 
 
 ## Getting started
 
-Data has been created with a public Python prpoject hosted on 
+Data has been created with a public Python project hosted on 
 [GitHub](https://github.com/rizac/gmgt-collect). 
 Please refer to that project if you are supplying new source data 
 to be harmonized and shipped as gmgt dataset. 
@@ -48,7 +48,7 @@ drwxr-x---+ 31 user  staff  992 Jan 20 17:44 ..
 Take the file with `.pub` extension (e.g., `id_ed25519.pub`. 
 **do not share with anybody the same file without extension:
 it's the PRIVATE key**) 
-and send it to lemgo@gfz.de (rizac@gfz.de in CC)
+and send it to lemgo [at] gfz.de (rizac [at] gfz.de in CC)
 
 
 ### Download the data
@@ -77,7 +77,16 @@ kiknet_knet.hdf
 where each `hdf` file denotes a gmgt dataset, composed of 
 time histories (accelerometers in m/sˆ2) and relative metadata.
 
+More details in the associated 
+[Python notebook](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.ipynb?ref_type=heads)
+
 ## Usage
+
+> Hint: For processing large datasets, we recommend 
+> executing Python modules as scripts instead of Jupyter notebooks, 
+> which are better suited for illustrative examples and exploratory 
+> analysis; running heavy computations in a script is 
+> more efficient
 
 1. Clone the repository
 
@@ -93,12 +102,12 @@ time histories (accelerometers in m/sˆ2) and relative metadata.
    it's fast, but you need to be sure that all requirements are already
    installed.
 
-2. Otherwise, you can create a new fresh virtual env (it can be done
+3. Otherwise, you can create a new fresh virtual env (it can be done
    inside the `gmgt` cloned directory for instance):
    ```
    python3 -m venv .env       # create a venv. Please use Ptyhon 3.11+
    source .env/bin/activate   # Linux/macOS
-   # .\env\Scripts\activate  # Windows PowerShell
+   # .\env\Scripts\activate   # Windows PowerShell (not tested)
    ```
    
    and then install this package (from within the gmgt directory):
@@ -117,4 +126,4 @@ time histories (accelerometers in m/sˆ2) and relative metadata.
 
 For illustrative purposes (or if you really want to stick to 
 Notebooks to process the data) we provided also a
-[Python notebook](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.py?ref_type=heads)
+[Python notebook](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.ipynb?ref_type=heads)
