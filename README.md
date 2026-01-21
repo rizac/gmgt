@@ -54,7 +54,7 @@ and send it to lemgo [at] gfz.de (rizac [at] gfz.de in CC)
 ### Download the data
 
 In you terminal, `cd` to the directory you want to save the 
-files from the GFZ server (recommended name `gmgt`` and type:
+files from the GFZ server (recommended name `gmgt`) and type:
 
 ```bash
 scp -P 54646 -r ethz@casco.gfz.de:/home/ethz/gmgt/datasets .
@@ -63,6 +63,15 @@ scp -P 54646 -r ethz@casco.gfz.de:/home/ethz/gmgt/datasets .
 This will create a `datasets` directory with all files
 The process will likely take several minutes.
 
+If you want to copy a specific dataset only  
+(it could be necessary in the validation phase, where we
+will likely recreate the datasets from scratch), type:
+
+```commandline
+scp -P 54646 ethz@casco.gfz.de:/home/ethz/gmgt/datasets/esm.hdf .
+scp -P 54646 ethz@casco.gfz.de:/home/ethz/gmgt/datasets/kiknet_knet.hdf .
+scp -P 54646 ethz@casco.gfz.de:/home/ethz/gmgt/datasets/ngawest2.hdf .
+```
 
 ## Data structure
 
@@ -77,7 +86,10 @@ kiknet_knet.hdf
 where each `hdf` file denotes a gmgt dataset, composed of 
 time histories (accelerometers in m/sˆ2) and relative metadata.
 
-More details in the associated 
+Metadata fields (columns) info can be found 
+[here](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
+
+More general details in the associated 
 [Python notebook](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.ipynb?ref_type=heads)
 
 ## Usage
