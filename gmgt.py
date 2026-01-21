@@ -25,9 +25,9 @@ def get_records(
     - h1, h2 and v are numpy arrays denoting the time histories, in m/s^2. h1 and h2
       denote the two horizontal components and v the vertical. An empty array indicates
       that the component is not available. The two horizontal components do not have
-      further information (e.g., orientation N/S is N/A).
+      further information (e.g., orientation such as north-south is not available).
     - dt is the float denoting the data sampling interval (in s)
-    - metadata is a namedtuple and it's quite self-explanatory (you can access all
+    - metadata is a namedtuple, and it is quite self-explanatory (you can access all
       metadata fields as normal attributes, e.g. `metadata.magnitude`. For a full list
       of fields, see:
       <https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml>
@@ -42,11 +42,11 @@ def get_records(
         records whose fields are equal to any value in the list/tuple will be yielded
 
         Examples:
-            for h1, h2, v, dt, m in records(path, available_components=['HHV', 'HH']):
-            for h1, h2, v, dt, m in records(path, min_magnitude=6):
-            for h1, h2, v, dt, m in records(path, max_magnitude=6)
-            for h1, h2, v, dt, m in records(path, magnitude=6)
-            for h1, h2, v, dt, m in records(path, magnitude=[4, 5, 6])
+            for h1, h2, v, dt, m in get_records(path, available_components=['HH', 'HHV']):
+            for h1, h2, v, dt, m in get_records(path, min_magnitude=6):
+            for h1, h2, v, dt, m in get_records(path, max_magnitude=6)
+            for h1, h2, v, dt, m in get_records(path, magnitude=6)
+            for h1, h2, v, dt, m in get_records(path, magnitude=[4, 5, 6])
     """
     chunk_size = 100000  # chunk for pandas read_hdf
 
