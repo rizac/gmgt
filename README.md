@@ -55,6 +55,7 @@ Take the file with `.pub` extension (e.g., `id_ed25519.pub`.
 **do not share with anybody the same file without extension:
 it's the PRIVATE key**) 
 and send it to lemgo@[domain] (rizac@[domain] in CC)
+asking for access to the casco server as ethz user
 
 
 ### Download the data
