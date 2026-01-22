@@ -5,7 +5,11 @@ of Ground motion time histories and metadata specifically
 created for Big data and machine learning applications.
 
 In this README you will find how to access and work with the data in 
-Python.
+Python. Other references (also mentioned throughout the README) include:
+
+- [Metadata fields (columns) description](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
+- [Python module](gmgt.py?ref_type=heads)
+- [Python notebook](gmgt.ipynb?ref_type=heads)
 
 For any question / problem / enhancement please open a new Issue
 (see "Issues" on top of this web page). 
@@ -16,11 +20,10 @@ and [port] to 54646 (both redacted for basic security hygiene).
 
 ## Getting started
 
-Data has been created with a public Python project hosted on 
+The datasets have been created with a public Python project hosted on 
 [GitHub](https://github.com/rizac/gmgt-collect). 
 Please refer to that project if you are supplying new source data 
 to be harmonized and shipped as gmgt dataset. 
-
 
 ## Download the datasets
 
@@ -81,9 +84,9 @@ scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/kiknet_knet.hdf .
 scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/ngawest2.hdf .
 ```
 
-## Data structure
+## Datasets directory structure
 
-The downloaded directory structure will be as follows:
+The `datasets` directory will contain the following files:
 
 ```
 ngawest2.hdf
@@ -92,13 +95,9 @@ kiknet_knet.hdf
 ```
 
 where each `hdf` file denotes a gmgt dataset, composed of 
-time histories (accelerometers in m/sˆ2) and relative metadata.
-
-Metadata fields (columns) info can be found 
-[here](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
-
-More general details in the associated 
-[Python notebook](gmgt.ipynb?ref_type=heads)
+time histories (accelerometers in m/sˆ2) and relative 
+[metadata](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
+all in a single hdf file.
 
 ## Usage
 
