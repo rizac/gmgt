@@ -7,8 +7,8 @@ created for Big data and machine learning applications.
 In this README you will find how to access and work with the data in 
 Python.
 
-For any question / problem / enhancement please open a new 
-[item in the Issues page](issues)
+For any question / problem / enhancement please open a new Issue
+(see "Issues" on top of this web page). 
 
 In the following, [domain] refers to `gfz.de` 
 and [port] to 54646 (both redacted for basic security hygiene).
