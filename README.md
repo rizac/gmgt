@@ -67,8 +67,9 @@ files from the GFZ server (recommended name `gmgt`) and type:
 scp -P [port] -r ethz@casco.[domain]:/home/ethz/gmgt/datasets .
 ```
 
-This will create a `datasets` directory with all files
-The process will likely take several minutes.
+This will create a `datasets` directory with all files. 
+The process will take several minutes (in the order of tens of minutes, 
+not hours).
 
 If you want to copy a specific dataset only  
 (it could be necessary in the validation phase, where we
