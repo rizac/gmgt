@@ -5,8 +5,10 @@ of Ground motion time histories and metadata specifically
 created for Big data and machine learning applications.
 
 In this README you will find how to access and work with the data in 
-Python
+Python.
 
+For any question / problem / enhancement please open a new 
+[item in the Issues page](https://git.gfz-potsdam.de/rizac/gmgt/-/issues)
 
 ## Getting started
 
