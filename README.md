@@ -109,7 +109,7 @@ More general details in the associated
 1. Clone the repository
 
    ```
-   git clone https://git.gfz-potsdam.de/rizac/gmgt.git
+   git clone https://github.com/rizac/gmgt.git
    cd gmgt
    ```
 
