@@ -8,7 +8,11 @@ In this README you will find how to access and work with the data in
 Python.
 
 For any question / problem / enhancement please open a new 
-[item in the Issues page](https://git.gfz-potsdam.de/rizac/gmgt/-/issues)
+[item in the Issues page](https://github.com/rizac/gmgt/-/issues)
+
+In the following, [domain] refers to `gfz.de` 
+(domain redacted for basic security hygiene).
+
 
 ## Getting started
 
@@ -50,7 +54,7 @@ drwxr-x---+ 31 user  staff  992 Jan 20 17:44 ..
 Take the file with `.pub` extension (e.g., `id_ed25519.pub`. 
 **do not share with anybody the same file without extension:
 it's the PRIVATE key**) 
-and send it to lemgo [at] gfz.de (rizac [at] gfz.de in CC)
+and send it to lemgo@[domain] (rizac@[domain] in CC)
 
 
 ### Download the data
@@ -59,7 +63,7 @@ In you terminal, `cd` to the directory you want to save the
 files from the GFZ server (recommended name `gmgt`) and type:
 
 ```bash
-scp -P 54646 -r ethz@casco.gfz.de:/home/ethz/gmgt/datasets .
+scp -P 54646 -r ethz@casco.[domain]:/home/ethz/gmgt/datasets .
 ```
 
 This will create a `datasets` directory with all files
@@ -70,9 +74,9 @@ If you want to copy a specific dataset only
 will likely recreate the datasets from scratch), type:
 
 ```commandline
-scp -P 54646 ethz@casco.gfz.de:/home/ethz/gmgt/datasets/esm.hdf .
-scp -P 54646 ethz@casco.gfz.de:/home/ethz/gmgt/datasets/kiknet_knet.hdf .
-scp -P 54646 ethz@casco.gfz.de:/home/ethz/gmgt/datasets/ngawest2.hdf .
+scp -P 54646 ethz@casco.[domain]:/home/ethz/gmgt/datasets/esm.hdf .
+scp -P 54646 ethz@casco.[domain]:/home/ethz/gmgt/datasets/kiknet_knet.hdf .
+scp -P 54646 ethz@casco.[domain]:/home/ethz/gmgt/datasets/ngawest2.hdf .
 ```
 
 ## Data structure
@@ -92,7 +96,7 @@ Metadata fields (columns) info can be found
 [here](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
 
 More general details in the associated 
-[Python notebook](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.ipynb?ref_type=heads)
+[Python notebook](https://github.com/rizac/gmgt/-/blob/main/gmgt.ipynb?ref_type=heads)
 
 ## Usage
 
@@ -111,7 +115,7 @@ More general details in the associated
 
 2. If you already have your Python virtual environment and setup,
    you can copy the file `gmgt.py` in your Python module, or even its 
-   [content](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.py?ref_type=heads) 
+   [content](https://github.com/rizac/gmgt/-/blob/main/gmgt.py?ref_type=heads) 
    directly in your code. This is a very "quick and dirty" approach: 
    it's fast, but you need to be sure that all requirements are already
    installed.
@@ -140,4 +144,4 @@ More general details in the associated
 
 For illustrative purposes (or if you really want to stick to 
 Notebooks to process the data) we provided also a
-[Python notebook](https://git.gfz-potsdam.de/rizac/gmgt/-/blob/main/gmgt.ipynb?ref_type=heads)
+[Python notebook](-/blob/main/gmgt.ipynb?ref_type=heads)
