@@ -28,7 +28,7 @@ to be harmonized and shipped as gmgt dataset.
 ## Download the datasets
 
 Data is hosted on a private server at GFZ (section 2.6). 
-To access the data, you must use using SSH (Secure Shell Protocol), 
+To access the data, you must use SSH (Secure Shell Protocol), 
 i.e., you must generate a pair of private and public keys, 
 and send to us **the public key only** via email.
 
@@ -64,10 +64,10 @@ asking for access to the casco server as ethz user
 ### Download the data
 
 In you terminal, `cd` to the directory you want to save the 
-files from the GFZ server (recommended name `gmgt`) and type:
+files from the GFZ server (recommended name `gmgt/datasets`) and type:
 
 ```bash
-scp -P [port] -r ethz@casco.[domain]:/home/ethz/gmgt/datasets .
+scp -P [port] -r ethz@casco.[domain]:/home/ethz/gmgt/datasets/*.hdf .
 ```
 
 This will create a `datasets` directory with all files. 
@@ -80,7 +80,8 @@ will likely recreate the datasets from scratch), type:
 
 ```commandline
 scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/esm.hdf .
-scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/kiknet_knet.hdf .
+scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/kik.hdf .
+scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/knet.hdf .
 scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/ngawest2.hdf .
 ```
 
@@ -91,7 +92,8 @@ The `datasets` directory will contain the following files:
 ```
 ngawest2.hdf
 esm.hdf
-kiknet_knet.hdf
+kik.hdf
+knet.hdf
 ```
 
 where each `hdf` file denotes a gmgt dataset, composed of 

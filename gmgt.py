@@ -13,71 +13,131 @@ import h5py
 
 
 
-def get_records(
-    dataset_path, **filters
+def records(
+    hdf_path, **filters
 ) -> Iterator[tuple[np.ndarray, np.ndarray, np.ndarray, float, tuple]]:
     """
-    Yield datasets records in the form:
+    Yield waveform records matching the given filters.
 
-    (h1, h2, v, dt, metadata)
+    Each record is returned as:
+        (h1, h2, v, dt, metadata)
 
-    where:
-    - h1, h2 and v are numpy arrays denoting the time histories, in m/s^2. h1 and h2
-      denote the two horizontal components and v the vertical. An empty array indicates
-      that the component is not available. The two horizontal components do not have
-      further information (e.g., orientation such as north-south is not available).
-    - dt is the float denoting the data sampling interval (in s)
-    - metadata is a namedtuple, and it is quite self-explanatory (you can access all
-      metadata fields as normal attributes, e.g. `metadata.magnitude`. For a full list
-      of fields, see:
-      <https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml>
+    The first three elements are numpy arrays representing acceleration
+    time histories in m/s**2. The arrays correspond to the two horizontal
+    components and the vertical component, respectively. If a component is
+    missing, an empty array is returned.
 
-    :param dataset_path: a string denoting the dataset path (absolute path to hdf file)
-    :param filters: a keyword argument whose parameters are any metadata fields,
-        optionally prefixed with 'min_', 'max_' and 'missing_' mapped to a matching
-        values in order to filter specific metadata row and yield only the corresponding
-        data. Values cannot be None / nan, NaT: to get those values, use the 'missing_'
-        prefix:, e.g. type `missing_magnitude: False` to yield only records where the
-        magnitude is provided (not N/A). If the filter name denotes a field name
-        with no prefix (e.g. 'magnitude'), values can also be list/tuples, in this case
-        records whose fields are equal to any value in the list/tuple will be yielded
+    `dt` is the sampling interval in seconds.
 
-        Examples:
-            for h1, h2, v, dt, m in get_records(path, available_components=['HH', 'HHV']):
-            for h1, h2, v, dt, m in get_records(path, min_magnitude=6):
-            for h1, h2, v, dt, m in get_records(path, max_magnitude=6)
-            for h1, h2, v, dt, m in get_records(path, magnitude=6)
-            for h1, h2, v, dt, m in get_records(path, magnitude=[4, 5, 6])
+    `metadata` contains record metadata and can be accessed as attributes,
+    for example: `metadata.magnitude`.
+
+    Parameters
+    ----------
+    hdf_path : str
+        Path to the HDF dataset containing waveforms and metadata.
+
+    filters : dict
+        Keyword filters applied to metadata fields. Filter keys may be
+        optionally prefixed with:
+
+        - `min_` or `max_` to specify numeric range constraints
+        - `missing_` to filter records based on missing values
+
+        Filter values may also be lists or tuples, in which case records
+        matching any value in the collection will be returned.
+
+        Notes:
+        1. The `min_` and `max_` prefixes can be used only with numeric,
+           boolean or datetime fields to avoid lexical comparison issues
+           (e.g. "9" > "10"), except for `origin_time_resolution`. Example:
+           `min_origin_time_resolution="s"` will get records with
+           event resolutions equal to, or finer than seconds
+
+        2. Values cannot be None, NaN, or NaT. To filter missing values,
+           use the `missing_` prefix. Example: `missing_magnitude=False`
+           to get only records with magnitude defined
+
+    Examples
+    --------
+
+    for h1, h2, v, dt, m in records(path, min_magnitude=6):
+    for h1, h2, v, dt, m in records(path, max_magnitude=6):
+    for h1, h2, v, dt, m in records(path, magnitude=6):
+    for h1, h2, v, dt, m in records(path, magnitude=[4, 5, 6]):
     """
-    chunk_size = 100000  # chunk for pandas read_hdf
+    # first check (no na in values):
+    invalid = []
+    for expr, value in filters.items():
+        if np.any(pd.isna(value)):
+            invalid.append(expr)
+    if invalid:
+        raise ValueError(f'Invalid None/NaN value provided for: {", ".join(invalid)}')
 
-    with pd.HDFStore(dataset_path, "r") as pd_f, h5py.File(dataset_path, "r") as h5_f:
+    chunk_size = 100000  # chunk for pandas read_hdf (tuneing speed / memory usage)
+
+    with pd.HDFStore(hdf_path, "r") as pd_f, h5py.File(hdf_path, "r") as h5_f:
         h5_root_group = h5_f["waveforms"]
+        meta_columns: set = None
         for chunk in pd_f.select("metadata", chunksize=chunk_size):  # noqa
             mask = pd.Series(True, index=chunk.index)
+
+            if meta_columns is None:
+                # lazy create columns
+                meta_columns = set(chunk.columns)
+
             for expr, value in filters.items():
                 try:
-                    if expr.startswith('min_'):
+
+                    if expr in meta_columns:
                         if isinstance(value, (tuple, list, set)):
-                            raise ValueError(f'{expr} requires a single value, '
-                                             f'not a list of values')
+                            col_mask = chunk[expr].isin(value)
+                        else:
+                            col_mask = chunk[expr] == value
+
+                    elif expr.startswith('min_') or expr.startswith('max_'):
                         col = expr[4:]
+
+                        if col == 'origin_time_resolution':
+                            values = ['Y', 'M', 'D', 'H', 'm', 's']
+                            assert value in values, f'invalid value: {value}'
+
+                            if expr.startswith('min_'):
+                                col_mask = chunk[col].isin(
+                                    values[values.index(value):]
+                                )
+                            else:
+                                col_mask = chunk[col].isin(
+                                    values[:values.index(value) + 1]
+                                )
                         # categorical column, need to work on categories:
-                        if isinstance(chunk[col].dtype, pd.CategoricalDtype):
+                        elif isinstance(chunk[col].dtype, pd.CategoricalDtype):
                             categs = chunk[col].cat.categories  # pandas Index
-                            col_mask = chunk[col].isin(categs[categs >= value])
+                            if (
+                                pd.api.types.is_datetime64_dtype(categs) or
+                                pd.api.types.is_numeric_dtype(categs)
+                            ):
+                                if expr.startswith('min_'):
+                                    col_mask = chunk[col].isin(categs[categs >= value])
+                                else:
+                                    col_mask = chunk[col].isin(categs[categs <= value])
+                            else:
+                                raise ValueError(
+                                    'invalid on non-numeric, non-datetime data field'
+                                )
+                        elif (
+                            pd.api.types.is_datetime64_dtype(chunk[col]) or
+                            pd.api.types.is_numeric_dtype(chunk[col])
+                        ):
+                            if expr.startswith('min_'):
+                                col_mask = chunk[col] >= value
+                            else:
+                                col_mask = chunk[col] <= value
                         else:
-                            col_mask = chunk[col] >= value
-                    elif expr.startswith('max_'):
-                        if isinstance(value, (tuple, list, set)):
-                            raise ValueError(f'{expr} requires a single value, '
-                                             f'not a list of values')
-                        col = expr[4:]
-                        if isinstance(chunk[col].dtype, pd.CategoricalDtype):
-                            categs = chunk[col].cat.categories  # pandas Index
-                            col_mask = chunk[col].isin(categs[categs <= value])
-                        else:
-                            col_mask = chunk[col] <= value
+                            raise ValueError(
+                                'invalid on non-numeric, non-datetime data field'
+                            )
+
                     elif expr.startswith('missing_'):
                         col = expr[8:]
                         if value is True:
@@ -86,20 +146,15 @@ def get_records(
                             col_mask = chunk[col].notna()
                         else:
                             raise ValueError(f'True/False expected, found {value}')
+
                     else:
-                        col = expr
-                        if isinstance(value, (tuple, list, set)):
-                            col_mask = chunk[col].isin(value)
-                        else:
-                            col_mask = chunk[col] == value
+                        raise ValueError(f'expected field name or expression')
+
                     mask &= col_mask
 
                 except (TypeError, ValueError, KeyError, AssertionError) as exc:
                     raise ValueError(f'Error in "{expr}": {exc}')
 
             for row in chunk[mask].itertuples(name='metadata', index=False):
-                if row.event_id in h5_root_group:
-                    event_waveforms = h5_root_group[row.event_id]
-                    if row.station_id in event_waveforms:
-                        wav = event_waveforms[row.station_id]
-                        yield wav[0], wav[1], wav[2], wav.attrs['dt'], row
+                waveform = h5_root_group[row.event_id][row.station_id]
+                yield waveform[0], waveform[1], waveform[2], waveform.attrs['dt'], row
