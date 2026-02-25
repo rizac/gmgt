@@ -13,7 +13,7 @@ import h5py
 
 
 
-def records(
+def get_records(
     hdf_path, **filters
 ) -> Iterator[tuple[np.ndarray, np.ndarray, np.ndarray, float, tuple]]:
     """
