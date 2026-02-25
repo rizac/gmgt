@@ -67,19 +67,19 @@ def get_records(
     """
     with pd.HDFStore(hdf_path, "r") as pd_f, h5py.File(hdf_path, "r") as h5_f:
         h5_root_group = h5_f["waveforms"]
-        meta_columns: set = None
+        columns: set = None
 
         #  pandas functions proxies:
         is_datetime = pd.api.types.is_datetime64_dtype
-        is_numeric = pd.api.types.is_numeric_dtype
+        is_numeric = pd.api.types.is_numeric_dtype  # Note: is_numeric(bool) is True
 
         # iterate over metadata (adjust chunk size if needed):
         for chunk in pd_f.select("metadata", chunksize=100000):  # noqa
             mask = np.ones(len(chunk), dtype=bool)
 
-            if meta_columns is None:
+            if columns is None:
                 # lazy create columns
-                meta_columns = set(chunk.columns)
+                columns = set(chunk.columns)
 
                 # check (one-time op) on values (we don't need to know meta columns):
                 invalid = [xpr for xpr, val in filters.items() if np.any(pd.isna(val))]
@@ -92,7 +92,7 @@ def get_records(
                 try:
                     col_mask = None
 
-                    if expr in meta_columns:
+                    if expr in columns:
 
                         if isinstance(value, (tuple, list, set)):
                             col_mask = chunk[expr].isin(value)
@@ -102,7 +102,7 @@ def get_records(
                     elif expr.startswith('missing_'):
                         col = expr[8:]
 
-                        if col in meta_columns:
+                        if col in columns:
 
                             if value is True:
                                 col_mask = chunk[col].isna()
@@ -114,7 +114,7 @@ def get_records(
                     elif expr.startswith('min_') or expr.startswith('max_'):
                         col = expr[4:]
 
-                        if col in meta_columns:
+                        if col in columns:
 
                             if col == 'origin_time_resolution':
                                 categories = ['Y', 'M', 'D', 'H', 'm', 's']
@@ -124,7 +124,6 @@ def get_records(
                                     values = categories[categories.index(value):]
                                 else:
                                     values = categories[:categories.index(value)]
-
                                 col_mask = chunk[col].isin(values)
 
                             elif isinstance(chunk[col].dtype, pd.CategoricalDtype):
@@ -148,11 +147,11 @@ def get_records(
 
                             if col_mask is None:
                                 raise ValueError(
-                                    'invalid on non-numeric, non-datetime data field'
+                                    'invalid on non-numeric, non-datetime data'
                                 )
 
                     if col_mask is None:
-                        raise ValueError(f'expected metadata field name or expression')
+                        raise ValueError(f'no metadata field found')
 
                     mask &= col_mask.to_numpy()
 
