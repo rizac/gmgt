@@ -1,6 +1,5 @@
 """
-Module for using GMGT datasets. Simply copy the `records` function in your code.
-See README for further details
+Module for using GMGT datasets. See repository README for further details
 """
 
 # virtual anv with python3.11
