@@ -89,12 +89,14 @@ scp -P [port] ethz@casco.[domain]:/home/ethz/gmgt/datasets/ngawest2.hdf .
 
 The `datasets` directory will contain the following files:
 
-```
-ngawest2.hdf
-esm.hdf
-kik.hdf
-knet.hdf
-```
+| Dataset      |  #waveforms |
+|:-------------|------------:|
+| ngawest2.hdf |      2,012  |
+| esm.hdf      |     45,586  |
+| kik2.hdf     |     899,875 | 
+| knet2.hdf    |     499,196 | 
+|              |  1,466,699  |
+
 
 where each `hdf` file denotes a gmgt dataset, composed of 
 time histories (accelerometers in m/sˆ2) and relative 
