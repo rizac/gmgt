@@ -29,10 +29,14 @@ Please contact the author for questions or getting access to them
   ```
   <!--  pip install --upgrade pip setuptools && pip install "pandas<3" h5py pyyaml tables tqdm [pytest] -->
 
-# Implementation
+# Dataset generation
+
+A GMGT dataset needs two sources: a metadata file (usually CSV or HDF) where each record is associated
+to its medatata, and a directory of time histories (miniSEEE, SAC, or any array-baeed format).
+Once you have these requisites in place:
 
 <details>
-<summary>If you need to generate a new GMGT dataset from new source data</summary>
+<summary>If you need to generate a new GMGT dataset from new source data, click here</summary>
    Copy one of the already implemented scripts `create_<dataset_name>.py` and modify the editable 
    functions (see instructions therein)
 </details>
@@ -41,7 +45,7 @@ Please contact the author for questions or getting access to them
    and the source time histories, e.g. in a file `<dataset_name>.yml`:
    
    ```yaml
-    source_metadata: "/home/dasegen/source-datasets/<dataset_name>/metadata.csv"
+    source_metadata: "/home/dasegen/source-datasets/<dataset_name>/<soude_metadata>.csv"
     source_data: "/home/dasegen/source-datasets/<dataset_name>/Waveforms"
     destination: "/home/dasegen/datasets/<dataset_name>"
     ```
