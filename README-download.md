@@ -1,4 +1,4 @@
-# GMGT
+# GMGT download
 
 If you do not want or cannot supply the source data to be harmonized 
 and create a GMGT dataset (see scripts under the `collect` directory),
