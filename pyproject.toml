@@ -21,3 +21,14 @@ dependencies = [
     "pandas>=2.3.3",
     "tables>=3.10.2"
 ]
+
+[project.optional-dependencies]
+collect = [
+    "pytest",
+    "tqdm",
+    "pandas<3",
+    "PyYAML",
+]
+
+[tool.setuptools]
+py-modules = ["gmgt"]

@@ -1,0 +1,209 @@
+# Metadata fields specification. A field is a record property, usually corresponding to
+# a column in a tabular representation (e.g. CSV, Dataframe)
+# 
+# <field_name>:
+#   dtype:    The field data type. Supported values are int, float, bool, datetime, or a
+#             list of values (all the same dtype) for categorical data, i.e. when the
+#             field can only take on one of the given values. Strings of text (`str`) are
+#             allowed only as category values (event_id and station_id dtype is`str` but
+#             their dtype will eventually be converted to categorical in the code)
+#   default:  The default for missing values. float, datetime or categorical fields can
+#             represent missing values natively (e.g., NaN or None), while int and bool
+#             require an explicit default (e.g., 0 and false)
+#   help:     The field description. "[Mandatory]" in the text means that values for this
+#             field cannot be missing
+
+# [!] IF YOU ARE BUILDING A SOURCE DATASET TO BE HARMONIZED WITH THIS PACKAGE TOOLS:
+# 1. You do not need to provide the following fields (they will auto generated):
+#    id, available_components, sampling_rate
+# 2. Records with missing values for mandatory fields ("[Mandatory]" see above) can be
+#    provided, but they will be discarded from the harmonized dataset
+
+id:
+  dtype: int
+  help: the unique record id [Mandatory]
+epicentral_distance:
+  dtype: float
+  help: epicentral distance (aka repi, in km) [Mandatory]
+rupture_distance:
+  dtype: float
+  help: rupture_distance (aka rrup, in km)
+rupture_distance2:
+  dtype: float
+  help: >- 
+    rupture_distance (aka rrup, in km) computed from dip2, strike2, rake2, if available
+joyner_boore_distance:
+  dtype: float
+  help: Joyner-Boore distance (aka rjb, in km)
+joyner_boore_distance2:
+  dtype: float
+  help: >- 
+    Joyner-Boore distance (aka rjb, in km) computed from dip2, strike2, rake2, 
+    if available
+hypocentral_distance:
+  dtype: float
+  help: hypocentral distance (aka rhypo, in km)
+fault_normal_distance:
+  dtype: float
+  help: >-
+    horizontal distance (aka Rx, in km) from the top of the rupture measured 
+    perpendicular to strike
+fault_parallel_distance:
+  dtype: float
+  help: >- 
+    horizontal distance (aka ry0, in km) from the top of the rupture measured parallel 
+    to strike
+event_id:
+  dtype: str
+  help: >-
+    the ID of the seismic event, used to determine when two records
+    originate from the same earthquake [Mandatory]
+origin_time:
+  dtype: datetime
+  help: the event origin time (see also origin_time_resolution) [Mandatory]
+origin_time_resolution:
+  dtype: ['Y', 'M', 'D', 'H', 'm', 's']
+  help: >-
+    Origin time resolution. Y: year, M: month, D: day, H: hour, m: minute, s: second. 
+    All units smaller than the given resolution are N/A and arbitrarily set to the 
+    default (usually 1 for days and months, 0 for hours minutes and seconds) [Mandatory]
+event_latitude:
+  dtype: float
+  help: event latitude (hypocenter latitude, in deg) in [-90, 90] [Mandatory]
+event_longitude:
+  dtype: float
+  help: event longitude (hypocenter longitude, in deg) in [-180, 180] [Mandatory]
+magnitude:
+  dtype: float
+  help: event magnitude [Mandatory]
+magnitude_type:
+  dtype: ["ML", "mb", "Ms", 'Mw', "MJ", "MD", "Md", "MV", "Mv"]
+  help: >- 
+    magnitude type. For MJ, MD, Md, MV, Mv, 
+    see https://www.data.jma.go.jp/eqev/data/bulletin/catalog/notes_e.html
+event_depth:
+  dtype: float
+  help: event depth (hypocentral depth, in km) [Mandatory]
+depth_to_top_of_fault_rupture:
+  dtype: float
+  help: top of Rupture Depth (aka ztor, in km). Must be >=0
+fault_rupture_width:
+  dtype: float
+  help: down-dip width of the rupture (in km). Must be >=0
+dip:
+  dtype: float
+  help: >-
+    the angle of the fault relative to the horizontal (deg) in [0, 90]. If dip2 is 
+    provided (not missing or N/A), this value corresponds to one of the two possible 
+    nodal planes from the focal mechanism solution
+dip2:
+  dtype: float
+  help: the dip for one of the possible nodal planes, or N/A (see dip help for details)
+rake:
+  dtype: float
+  help: >-
+    the direction the hanging wall moves, relative to the fault strike (deg) in 
+    [-180, 180]. If rake2 is provided (not missing or N/A), this value corresponds to 
+    one of the two possible nodal planes from the focal mechanism solution
+rake2:
+  dtype: float
+  help: The rake for one of the possible nodal planes, or N/A (see rake for details)
+strike:
+  dtype: float
+  help: >- 
+    Strike angle in [0, 360] of the fault plane used to approximate the causative fault 
+    surface. If strike2 is also provided (not missing or N/A), this value corresponds to 
+    one of the two possible nodal planes from the focal mechanism solution
+strike2:
+  dtype: float
+  help: The strike for one of the possible nodal planes, or N/A (see strike for details)
+fault_type:
+  dtype: ['Strike-Slip', 'Normal', 'Reverse' , 'Reverse-Oblique', 'Normal-Oblique']
+  help: >-
+    mechanism based on Rake Angle (aka Style of Faulting). Rake angles defining the
+    different categories might vary according to the source datasets
+station_id:
+  dtype: str
+  help: the unique ID of the seismic station [Mandatory]
+z1:
+  dtype: float
+  help: >-
+    depth of the layer where seismic waves start to propagate with a speed above 1.0
+    km/sec, in meters
+z2pt5:
+  dtype: float
+  help: >-
+    depth of the layer where seismic waves start to propagate with a speed above
+    2.5 km/sec, in km
+vs30:
+  dtype: float
+  help: Average shear wave velocity in the top 30 m, in m/s (>=0)
+vs30measured:
+  dtype: bool
+  help: whether or not the Vs30 is measured (default true)
+  default: true
+station_latitude:
+  dtype: float
+  help: station latitude (deg), in [-90, 90] [Mandatory]
+station_longitude:
+  dtype: float
+  help: station longitude (deg), in [-180, 180] [Mandatory]
+station_elevation:
+  dtype: float
+  help: station elevation (altitude), in m >=0
+station_depth:
+  dtype: float
+  help: station (or recording sensor) depth relative to the surface, in m >=0
+region:
+  dtype: [0, 1, 2, 3, 4, 5]
+  help: >-
+    The ESHM2020 attenuation cluster region to which the site belongs
+    (https://doi.org/10.1007/s10518-020-00899-9). 0: unknown,
+    1: average / slower, 2: average / faster, 3: fast, 4: average, 5: very slow
+  default: 0
+filter_type:
+  dtype: ["O", "A", "C"]
+  help: >- 
+    Type of filter used to remove noise at long and short periods. 
+    O: Ormsby, A: Acausal Butterworth, C Causal butterworth
+filter_order:
+  dtype: int
+  help: the filter order. 0 when not applicable / not available
+lower_cutoff_frequency_h1:
+  dtype: float
+  help: corner frequency of the high-pass filter of component H1, in Hz
+lower_cutoff_frequency_h2:
+  dtype: float
+  help: corner frequency of the high-pass filter of component H2, in Hz
+upper_cutoff_frequency_h1:
+  dtype: float
+  help: corner frequency of the low-pass filter of component H1, in Hz
+upper_cutoff_frequency_h2:
+  dtype: float
+  help: corner frequency of the low-pass filter of component H2, in Hz
+lowest_usable_frequency_h1:
+  dtype: float
+  help: lowest usable frequency of component H1, in Hz
+lowest_usable_frequency_h2:
+  dtype: float
+  help: lowest usable frequency of component H2, in Hz
+available_components:
+  dtype: ['H', 'HH', 'HV', 'V', 'HHV']
+  help: >-
+    the available time histories for this recording: H: only one horizontal 
+    component, HH: the two horizontal components, HV: one horizontal and one vertical,
+    V: only vertical, HHV: all three components (2 horizontal, and the vertical)
+    [Mandatory]
+sampling_rate:
+  dtype: int
+  help: >- 
+    the sampling rate >0 of all available components (h1, h2, v), computed as the 
+    inverse of the data time step dt rounded to int. [Mandatory]
+  default: 0
+PGA:
+  dtype: float
+  help: >-
+    peak ground acceleration, in m/s^2. If available it is the PGA computed at RotD50. 
+    Otherwise, if the two horizontal components are available, it is their geometric 
+    mean. Values are retrieved from the source catalog, not computed directly from the 
+    data
