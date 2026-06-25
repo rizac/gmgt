@@ -1,29 +1,13 @@
 # GMGT
 
-**G**round **M**otion **G**round **T**ruth is a collection of datasets
-of Ground motion time histories and metadata specifically
-created for Big data and machine learning applications.
+If you do not want or cannot supply the source data to be harmonized 
+and create a GMGT dataset (see scripts under the `collect` directory),
+you can access the already generated datasets hosted at GFZ
 
-In this README you will find how to access and work with the data in 
-Python. Other references (also mentioned throughout the README) include:
-
-- [Metadata fields (columns) description](metadata_fields.yml)
-- [Python module](gmgt.py)
-- [Python notebook](gmgt.ipynb)
-
-For any question / problem / enhancement please open a new Issue
-(see "Issues" on top of this web page). 
-
-In the following, [domain] refers to `gfz.de` 
-and [port] to 54646 (both redacted for basic security hygiene).
-
-
-## Getting started
-
-The datasets have been created with a public Python project hosted on 
-[GitHub](https://github.com/rizac/gmgt-collect). 
-Please refer to that project if you are supplying new source data 
-to be harmonized and shipped as gmgt dataset. 
+> **Disclaimer:** 
+> Most datasets are released under a restricted license and provided here solely for research use.
+> Redistribution in any form is in most cases strictly prohibited.
+> The authors accept no responsibility for any misuse of the data.
 
 ## Download the datasets
 
@@ -60,6 +44,8 @@ it's the PRIVATE key**)
 and send it to lemgo@[domain] (rizac@[domain] in CC)
 asking for access to the casco server as ethz user
 
+In the following, [domain] refers to `gfz.de` 
+and [port] to 54646 (both redacted for basic security hygiene).
 
 ### Download the data
 
