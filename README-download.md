@@ -5,7 +5,7 @@ and create a GMGT dataset (see scripts under the `collect` directory),
 you can access the already generated datasets hosted at GFZ
 
 > **Disclaimer:** 
-> Most datasets are released under a restricted license and provided here solely for research use.
+> Most datasets are released under a restricted license and provided here solely for internal research use.
 > Redistribution in any form is in most cases strictly prohibited.
 > The authors accept no responsibility for any misuse of the data.
 
