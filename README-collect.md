@@ -32,7 +32,9 @@ Please contact the author for questions or getting access to them
 # Dataset generation
 
 A GMGT dataset needs two sources: a metadata file (usually CSV or HDF) where each record is associated
-to its medatata, and a directory of time histories (miniSEEE, SAC, or any array-baeed format).
+to its medatata, and a directory of time histories (in any format you want) that should be present in
+the metadata.
+
 Once you have these requisites in place:
 
 <details>
