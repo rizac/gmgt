@@ -7,9 +7,9 @@ created for Big data and machine learning applications.
 In this README you will find how to access and work with the data in 
 Python. Other references (also mentioned throughout the README) include:
 
-- [Metadata fields (columns) description](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
-- [Python module](gmgt.py?ref_type=heads)
-- [Python notebook](gmgt.ipynb?ref_type=heads)
+- [Metadata fields (columns) description](metadata_fields.yml)
+- [Python module](gmgt.py)
+- [Python notebook](gmgt.ipynb)
 
 For any question / problem / enhancement please open a new Issue
 (see "Issues" on top of this web page). 
