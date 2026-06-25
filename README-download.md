@@ -1,8 +1,4 @@
-# GMGT download
-
-If you do not want or cannot supply the source data to be harmonized 
-and create a GMGT dataset (see scripts under the `collect` directory),
-you can access the already generated datasets hosted at GFZ
+[&laquo; back to README](README.md)
 
 > **Disclaimer:** 
 > Most datasets are released under a restricted license and provided here solely for internal research use.
@@ -11,7 +7,7 @@ you can access the already generated datasets hosted at GFZ
 
 ## Download the datasets
 
-Data is hosted on a private server at GFZ (section 2.6). 
+All GMGT datasets are already hosted on a private server at GFZ (section 2.6). 
 To access the data, you must use SSH (Secure Shell Protocol), 
 i.e., you must generate a pair of private and public keys, 
 and send to us **the public key only** via email.
