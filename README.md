@@ -1,7 +1,7 @@
 # GMGT
 
-**G**round **M**otion **G**round **T**ruth is a collection of datasets
-of Ground motion time histories and metadata specifically
+**G**round **M**otion **G**round **T**ruth is a software for the generation and deployement
+datasets of Ground motion time histories and metadata specifically
 created for Big data and machine learning applications.
 
 In this README you will find how to access and work with the data in 
@@ -27,7 +27,8 @@ We assume in the following that you have generated or downloaded the GMGT datase
 
 ## Datasets directory structure
 
-The `datasets` directory will contain the following files:
+The `datasets` directory - if all the script of the `collect` directory are executed,
+will contain the following files:
 
 | Dataset      |  #waveforms |
 |:-------------|------------:|
