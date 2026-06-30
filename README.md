@@ -1,50 +1,65 @@
 # GMGT
 
-**G**round **M**otion **G**round **T**ruth is a software for the generation and deployement
-datasets of Ground motion time histories and metadata specifically
-created for Big data and machine learning applications.
+**G**round **M**otion **G**round **T**ruth is a software for the generation 
+and deployment of datasets of Ground motion time histories and metadata,
+specifically created for Big data and machine learning applications.
 
-In this README you will find how to access and work with the data in 
+<!-- In this README you will find how to access and work with the data in 
 Python. Other references (also mentioned throughout the README) include:
 
-- [Metadata fields (columns) description](metadata_fields.yml)
+
 - [Python module](gmgt.py)
 - [Python notebook](gmgt.ipynb)
+-->
 
 For any question / problem / enhancement please open a new Issue
 (see "Issues" on top of this web page). 
 
+## Creating a new dataset
 
-If you want to create your datasets, please contact us for the source data, and then have a look at 
+If you want to create your harmonized dataset form your source, 
+please contact us for the source data, and then have a look at 
 [GMGT (collect)](README-collect.md)
 
-If you want to use the already generated data (interal private useage only), please refer
-to [GMGT (download)](README-download.md)
+## Downloaded already created datasets (needs authorization)
+
+If you want to skip the dataset generation, the GFZ section 2.6 hosts 
+(for private usage only) already created datasets. 
+Please refer to [GMGT (download)](README-download.md)
 
 ## Getting started
 
 We assume in the following that you have generated or downloaded the GMGT datasets into a `datasests` directory. 
 
-## Datasets directory structure
+### Datasets directory structure
 
 The `datasets` directory - if all the script of the `collect` directory are executed,
 will contain the following files:
 
-| Dataset      |  #waveforms |
-|:-------------|------------:|
-| ngawest2.hdf |      2,012  |
-| esm.hdf      |     45,586  |
-| kik2.hdf     |     899,875 | 
-| knet2.hdf    |     499,196 | 
-|              |  1,466,699  |
+| Dataset      |    #waveforms |
+|:-------------|--------------:|
+| ngawest2.hdf |         2,012 |
+| esm.hdf      |        45,586 |
+| kik2.hdf     |       899,875 | 
+| knet2.hdf    |       499,196 | 
+| **Total:**   | **1,466,699** |
 
 
-where each `hdf` file denotes a gmgt dataset, composed of 
+where each `hdf` file denotes a GMGT dataset, composed of 
 time histories (accelerometers in m/sˆ2) and relative 
-[metadata](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml)
-all in a single hdf file.
+[metadata](https://github.com/rizac/gmgt-collect/blob/main/metadata_fields.yml) all in a single hdf file.
 
-## Usage
+Each time history is a numpy container of 1 to 3 numeric arrays (denoting
+each recording component) and a `dt` (denoting the sampling interval), whereas
+the metadata is a tabular structure with the following fields:
+
+- [Metadata fields (columns) description](metadata_fields.yml)
+
+Users are supposed to select the time histories based on the metadata, and
+work with the data, as explained in the associated python module and notebook
+(see below for details)
+
+### Usage
 
 > Hint: For processing large datasets, we recommend 
 > executing Python modules as scripts instead of Jupyter notebooks, 
