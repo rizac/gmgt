@@ -4,6 +4,14 @@
 and deployment of datasets of Ground motion time histories and metadata,
 specifically created for Big data and machine learning applications.
 
+Cite as:
+> Zaccarelli, Riccardo; Loviknes, Karina; Dokht Dolatabadi Esfahani, Reza; 
+> Bora, Sanjay; Palgunadi, Kadek Hendrawan; Meier, Men-Andrin; Cotton, Fabrice (2026): 
+> Ground Motion Ground Truth (GMGT): A software for generating Datasets of Processed 
+> Time Histories and Metadata specifically designed for Machine Learning Applications 
+> in Ground Motion Prediction. V. 1. GFZ Data Services. 
+> https://doi.org/10.5880/GFZ.LKUT.2026.002
+
 <!-- In this README you will find how to access and work with the data in 
 Python. Other references (also mentioned throughout the README) include:
 
